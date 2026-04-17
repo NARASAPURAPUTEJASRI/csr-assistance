@@ -124,11 +124,13 @@ Open index.html in your browser or navigate to http://localhost:8000.
 Use these prompts to validate all assistant capabilities:
 
 **Out-of-Scope Detection**
+
 What is AI?
 
 What is oxygen?
 
 **Greetings & Polite Interactions**
+
 hi
 
 hello
@@ -138,6 +140,7 @@ thanks
 bye
 
 **Order Queries**
+
 status of order 101
 
 details of order 101
@@ -149,6 +152,7 @@ cancel order 102
 create order for customer id 1 product iPhone 16 quantity 1
 
 **Customer Information**
+
 Tejasri phone number
 
 Tejasri email
@@ -164,6 +168,7 @@ show orders for Tejasri
 orders for customer id 1
 
 **Ticket Creation**
+
 create ticket for order 104 issue damaged screen
 
 create ticket customer id 1 order id 101 issue wrong shipment
@@ -171,6 +176,7 @@ create ticket customer id 1 order id 101 issue wrong shipment
 create ticket                          ← triggers smart field collection
 
 **Complaint Creation**
+
 create complaint for order 104 product damaged
 
 create complaint for customer id 1 order id 101 issue late delivery
@@ -180,6 +186,7 @@ create complaint                       ← triggers smart field collection
 create complaint for customer id 19    ← prompts for missing order_id and issue
 
 **Complaint Lookup**
+
 complaint details for order 113
 
 complaint details for customer id 1
@@ -187,6 +194,7 @@ complaint details for customer id 1
 complaint details for Tejasri
 
 **Duplicate Prevention**
+
 create ticket for order 104 issue damaged screen    ← first time: created
 
 create ticket for order 104 issue damaged screen    ← second time: duplicate warning
