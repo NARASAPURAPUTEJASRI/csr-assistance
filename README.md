@@ -117,7 +117,8 @@ Ticket and complaint creation with duplicate detection
 Table-formatted report generation for high-priority complaints
 
 # Start the server
-uvicorn app:app --reload
+python -m uvicorn app:app --reload
+
 Open index.html in your browser or navigate to http://localhost:8000.
 
 # Test Prompts
