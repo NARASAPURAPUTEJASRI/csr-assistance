@@ -4,11 +4,17 @@ An intelligent, scope-aware customer service assistant built for e-commerce plat
 # Table of Contents
 
 Problem Statement
+
 Features
+
 Tech Stack
+
 Project Structure
+
 Architecture & Workflow
+
 LLM vs Backend Responsibilities
+
 Test Prompts
 
 
@@ -65,43 +71,9 @@ Uvicorn - ASGI server
 Tailwind CSS   - Utility-first CSS 
 HTML / CSS / JS - Frontend chat interface
 
-
-📁 **Project Structure**
-├── app.py              # FastAPI application — request routing and response formatting
-├── ai_engine.py        # Intent detection, LLM calls, entity extraction, priority classification
-├── db.py               # SQLite layer — CRUD operations, duplicate checks, complaint lookup
-├── config.py           # Configuration (API key, model name, thresholds)
-├── csr_database.db     # SQLite database file
-├── index.html          # Chat UI frontend
-└── script.js           # Frontend messaging logic
-
 🔄 **Architecture & Workflow**
-User Query (Chat UI)
-        │
-        ▼
-  POST /chat  (app.py)
-        │
-        ▼
-  ai_engine.detect_intent()
-        │
-        ├── Rule-based check (greetings, thanks, escalation)
-        │
-        └── Gemini LLM → JSON intent + extracted entities
-                │
-                ▼
-        Intent Router (app.py)
-                │
-    ┌───────────┼────────────┐
-    ▼           ▼            ▼
-Order Query  Customer    Ticket /
- (db.py)    Lookup +    Complaint
-          LLM Filter    Creation
-                       (duplicate check)
-                │
-                ▼
-        Formatted Response → Frontend
 
-      <img width="1536" height="1024" alt="ChatGPT Image Apr 17, 2026, 04_49_28 PM" src="https://github.com/user-attachments/assets/cef18642-26f6-4f0c-b4f3-8c70d2cbbbd7" />
+![image alt](https://github.com/NARASAPURAPUTEJASRI/csr-assistance/blob/506a51e9dbb84fed7385ee5ab928237ec65c7b5b/flow_img.png)
 
 
 # LLM vs Backend Responsibilities
