@@ -1,136 +1,182 @@
-AI Customer Assistant
+# AI-Powered Customer Service Assistant
+An intelligent, scope-aware customer service assistant built for e-commerce platforms. Combines a FastAPI backend, SQLite database, and Gemini LLM to handle order queries, customer lookups, ticket/complaint management, and more — all through a clean chat UI.
 
-1. Project Overview
+# Table of Contents
 
-This project is an AI-powered customer service assistant for e-commerce. It accepts user queries through a chat UI and responds with information about:
+Problem Statement
+Features
+Tech Stack
+Project Structure
+Architecture & Workflow
+LLM vs Backend Responsibilities
+Test Prompts
 
-orders
-customers
-tickets
-complaints
-It also prevents the assistant from answering unrelated general questions, filters customer data based on user intent, formats responses cleanly, and manages ticket/complaint creation safely.
 
-2. What the Assistant Can Do
+# Problem Statement
+Customer support teams face repetitive, high-volume queries that slow resolution times and strain human agents. This project automates first-line support for e-commerce platforms by building an AI assistant that:
 
-Recognize greetings, goodbyes, thanks, and escalation requests
-Check order status, details, delay, and cancellation
-Lookup customer information and orders
-Create support tickets
-Create complaints with priority classification
-Create new orders from customer inputs
-Fetch complaint details via order id, customer id, or customer name
-List high priority complaints
-Detect out-of-scope queries and reply with a restricted message
+Stays on-topic — Rejects unrelated general knowledge questions
+Returns clean data — Filters customer records to only relevant fields
+Prevents duplicates — Blocks or confirms duplicate tickets/complaints
+Collects smartly — Only prompts for truly missing data during ticket/complaint creation
+Prioritises automatically — Classifies complaint urgency as HIGH, MEDIUM, or LOW
+Reports clearly — Renders high-priority complaints in formatted table output
 
-3. Project Flow
 
-User sends a query from the web UI.
-Frontend POSTs the query to /chat.
-app.py receives the request and calls ai_engine.detect_intent(query).
-ai_engine.py first applies rule-based checks for greetings, thanks, etc.
-If no rule matches, it sends the query to the Gemini LLM with a prompt to classify intent and extract IDs.
-The model returns a JSON intent result.
-app.py routes the request based on the detected intent:
-order queries handled by db.py
-customer queries handled by db.py plus LLM filtering
-ticket/complaint creation handled with duplicate checks
-complaint lookup handled by order/customer queries
-Results are formatted and returned to the frontend.
+# Features
 
-4. File Description
+**General Interactions**
 
-app.py
+Greetings, goodbyes, acknowledgements
+Escalation to a human agent
 
-Main FastAPI application
-Receives chat requests, routes intents, formats output
-Uses backend database functions and AI helpers
+**Order Management**
 
-ai_engine.py
+Order status, details, and delay enquiries
+Order cancellation
+New order creation
 
-Handles intent detection
-Uses Gemini LLM for classification, customer filtering, and complaint priority
-Contains rule-based shortcuts
+**Customer Queries**
 
-db.py
+Customer information lookup (filtered by requested fields)
+Customer order history
 
-SQLite database layer
-Stores and retrieves orders, customers, tickets, and complaints
-Handles duplicate checks, order creation, and complaint lookup
+**Ticket & Complaint Handling**
 
-index.html
+Create support tickets with duplicate detection
+Create complaints with automatic priority classification
+Look up complaints by order ID, customer ID, or customer name
+High-priority complaints report (table format)
 
-Frontend chat UI
-Loads the chat page and displays messages
+**Safety & Intelligence**
 
-script.js
+Out-of-scope query detection and graceful rejection
+Smart field collection — only asks for what's genuinely missing
+Duplicate prevention with confirmation flow
 
-Frontend behavior for chat messaging
-Sends queries to the backend and shows results
 
-config.py
+🛠️ **Tech Stack**
 
-Stores configuration values such as API key, model, and confidence threshold
-Should be changed to load secrets from environment variables
+FastAPI - REST API framework 
+SQLite  - Local file-based database (csr_database.db)
+Gemini  - LLMAI engine for intent detection and NLP
+Pydantic- Request/response validation and modelling
+Uvicorn - ASGI server
+Tailwind CSS   - Utility-first CSS 
+HTML / CSS / JS - Frontend chat interface
 
-5. Test Prompts
 
-Use these prompts to verify the assistant:
+📁 **Project Structure**
+├── app.py              # FastAPI application — request routing and response formatting
+├── ai_engine.py        # Intent detection, LLM calls, entity extraction, priority classification
+├── db.py               # SQLite layer — CRUD operations, duplicate checks, complaint lookup
+├── config.py           # Configuration (API key, model name, thresholds)
+├── csr_database.db     # SQLite database file
+├── index.html          # Chat UI frontend
+└── script.js           # Frontend messaging logic
 
-Out-of-scope
+🔄 **Architecture & Workflow**
+User Query (Chat UI)
+        │
+        ▼
+  POST /chat  (app.py)
+        │
+        ▼
+  ai_engine.detect_intent()
+        │
+        ├── Rule-based check (greetings, thanks, escalation)
+        │
+        └── Gemini LLM → JSON intent + extracted entities
+                │
+                ▼
+        Intent Router (app.py)
+                │
+    ┌───────────┼────────────┐
+    ▼           ▼            ▼
+Order Query  Customer    Ticket /
+ (db.py)    Lookup +    Complaint
+          LLM Filter    Creation
+                       (duplicate check)
+                │
+                ▼
+        Formatted Response → Frontend
 
+      <img width="1536" height="1024" alt="ChatGPT Image Apr 17, 2026, 04_49_28 PM" src="https://github.com/user-attachments/assets/cef18642-26f6-4f0c-b4f3-8c70d2cbbbd7" />
+
+
+# LLM vs Backend Responsibilities
+**Gemini LLM handles**:
+
+Intent classification from natural language
+Out-of-scope (OUT_OF_SCOPE) detection
+Entity extraction — order_id, customer_id, customer_name
+Customer response field filtering
+Complaint priority classification (HIGH / MEDIUM / LOW)
+Fallback conversational replies for ambiguous inputs
+
+**FastAPI + SQLite handles**:
+
+Data storage and retrieval
+Business logic and intent routing
+Order lookup, creation, and cancellation
+Customer data lookup and field filtering
+Ticket and complaint creation with duplicate detection
+Table-formatted report generation for high-priority complaints
+
+# Start the server
+uvicorn app:app --reload
+Open index.html in your browser or navigate to http://localhost:8000.
+
+# Test Prompts
+Use these prompts to validate all assistant capabilities:
+
+**Out-of-Scope Detection**
 What is AI?
 What is oxygen?
 
-Greetings / polite
-
+**Greetings & Polite Interactions**
 hi
 hello
 thanks
 bye
 talk to agent
 
-Order queries
-
+**Order Queries**
 status of order 101
 details of order 101
 order 101 delay
 cancel order 102
 create order for customer id 1 product iPhone 16 quantity 1
 
-Customer info
-
+**Customer Information**
 Tejasri phone number
 Tejasri email
 Tejasri details
 customer id 1 details
-
-Customer orders
-
+Customer Order History
 show orders for Tejasri
 orders for customer id 1
 
-Ticket creation
-
+**Ticket Creation**
 create ticket for order 104 issue damaged screen
 create ticket customer id 1 order id 101 issue wrong shipment
-create ticket (should ask for all required fields)
+create ticket                          ← triggers smart field collection
 
-Complaint creation
-
+**Complaint Creation**
 create complaint for order 104 product damaged
 create complaint for customer id 1 order id 101 issue late delivery
-create complaint (should ask for all required fields)
-create complaint for customer id 19 (should ask for order_id and issue too)
+create complaint                       ← triggers smart field collection
+create complaint for customer id 19    ← prompts for missing order_id and issue
 
-Complaint lookup
-
+**Complaint Lookup**
 complaint details for order 113
 complaint details for customer id 1
 complaint details for Tejasri
 
-Duplicate prevention
+**Duplicate Prevention**
+create ticket for order 104 issue damaged screen    ← first time: created
+create ticket for order 104 issue damaged screen    ← second time: duplicate warning
 
-create a ticket/complaint twice for the same order and verify the confirmation message
 
 Outputs Images:
 ![image alt](https://github.com/NARASAPURAPUTEJASRI/csr-assistance/blob/ea814269230d219bbb93d3bb707fffbad627030a/img1.png)
