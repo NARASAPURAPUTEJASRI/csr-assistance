@@ -22,10 +22,15 @@ Test Prompts
 Customer support teams face repetitive, high-volume queries that slow resolution times and strain human agents. This project automates first-line support for e-commerce platforms by building an AI assistant that:
 
 Stays on-topic — Rejects unrelated general knowledge questions
+
 Returns clean data — Filters customer records to only relevant fields
+
 Prevents duplicates — Blocks or confirms duplicate tickets/complaints
+
 Collects smartly — Only prompts for truly missing data during ticket/complaint creation
+
 Prioritises automatically — Classifies complaint urgency as HIGH, MEDIUM, or LOW
+
 Reports clearly — Renders high-priority complaints in formatted table output
 
 
@@ -64,11 +69,17 @@ Duplicate prevention with confirmation flow
 🛠️ **Tech Stack**
 
 FastAPI - REST API framework 
+
 SQLite  - Local file-based database (csr_database.db)
+
 Gemini  - LLMAI engine for intent detection and NLP
+
 Pydantic- Request/response validation and modelling
+
 Uvicorn - ASGI server
+
 Tailwind CSS   - Utility-first CSS 
+
 HTML / CSS / JS - Frontend chat interface
 
 🔄 **Architecture & Workflow**
@@ -80,19 +91,29 @@ HTML / CSS / JS - Frontend chat interface
 **Gemini LLM handles**:
 
 Intent classification from natural language
+
 Out-of-scope (OUT_OF_SCOPE) detection
+
 Entity extraction — order_id, customer_id, customer_name
+
 Customer response field filtering
+
 Complaint priority classification (HIGH / MEDIUM / LOW)
+
 Fallback conversational replies for ambiguous inputs
 
 **FastAPI + SQLite handles**:
 
 Data storage and retrieval
+
 Business logic and intent routing
+
 Order lookup, creation, and cancellation
+
 Customer data lookup and field filtering
+
 Ticket and complaint creation with duplicate detection
+
 Table-formatted report generation for high-priority complaints
 
 # Start the server
@@ -104,49 +125,70 @@ Use these prompts to validate all assistant capabilities:
 
 **Out-of-Scope Detection**
 What is AI?
+
 What is oxygen?
 
 **Greetings & Polite Interactions**
 hi
+
 hello
+
 thanks
+
 bye
-talk to agent
 
 **Order Queries**
 status of order 101
+
 details of order 101
+
 order 101 delay
+
 cancel order 102
+
 create order for customer id 1 product iPhone 16 quantity 1
 
 **Customer Information**
 Tejasri phone number
+
 Tejasri email
+
 Tejasri details
+
 customer id 1 details
+
 Customer Order History
+
 show orders for Tejasri
+
 orders for customer id 1
 
 **Ticket Creation**
 create ticket for order 104 issue damaged screen
+
 create ticket customer id 1 order id 101 issue wrong shipment
+
 create ticket                          ← triggers smart field collection
 
 **Complaint Creation**
 create complaint for order 104 product damaged
+
 create complaint for customer id 1 order id 101 issue late delivery
+
 create complaint                       ← triggers smart field collection
+
 create complaint for customer id 19    ← prompts for missing order_id and issue
 
 **Complaint Lookup**
 complaint details for order 113
+
 complaint details for customer id 1
+
 complaint details for Tejasri
 
 **Duplicate Prevention**
 create ticket for order 104 issue damaged screen    ← first time: created
+
 create ticket for order 104 issue damaged screen    ← second time: duplicate warning
 
 
