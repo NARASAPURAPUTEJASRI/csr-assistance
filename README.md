@@ -66,7 +66,7 @@ Smart field collection — only asks for what's genuinely missing
 Duplicate prevention with confirmation flow
 
 
-🛠️ **Tech Stack**
+# Tech Stack
 
 FastAPI - REST API framework 
 
@@ -82,12 +82,13 @@ Tailwind CSS   - Utility-first CSS
 
 HTML / CSS / JS - Frontend chat interface
 
-🔄 **Architecture & Workflow**
+# Architecture & Workflow
 
 ![image alt](https://github.com/NARASAPURAPUTEJASRI/csr-assistance/blob/506a51e9dbb84fed7385ee5ab928237ec65c7b5b/flow_img.png)
 
 
 # LLM vs Backend Responsibilities
+
 **Gemini LLM handles**:
 
 Intent classification from natural language
@@ -201,7 +202,7 @@ create ticket for order 104 issue damaged screen    ← first time: created
 create ticket for order 104 issue damaged screen    ← second time: duplicate warning
 
 
-Outputs Images:
+# Outputs Images
 ![image alt](https://github.com/NARASAPURAPUTEJASRI/csr-assistance/blob/ea814269230d219bbb93d3bb707fffbad627030a/img1.png)
 
 ![image alt](https://github.com/NARASAPURAPUTEJASRI/csr-assistance/blob/0d89b03f8c5a7860e543c110dd6615f17b8fa054/img2.png)
