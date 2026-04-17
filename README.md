@@ -132,4 +132,7 @@ Duplicate prevention
 
 create a ticket/complaint twice for the same order and verify the confirmation message
 
+Outputs Images:
+![image alt](https://github.com/NARASAPURAPUTEJASRI/csr-assistance/blob/ea814269230d219bbb93d3bb707fffbad627030a/img1.png)
+
 
